@@ -1,0 +1,1 @@
+<view style="{{$root.s0}}" class="data-v-3a7cd608"><view style="{{$root.s1}}" class="data-v-3a7cd608"><slot></slot></view></view>

@@ -1,0 +1,34 @@
+server {
+    listen 80;
+    server_name your.domain.com;
+
+    root /data/www/crmeb-official_v6/public;
+    index index.php index.html;
+
+    client_max_body_size 50m;
+
+    access_log /data/logs/crmeb/nginx-access.log;
+    error_log  /data/logs/crmeb/nginx-error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?s=$uri&$args;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    }
+
+    location ~* \.(jpg|jpeg|gif|png|webp|ico|css|js|svg|woff|woff2|ttf)$ {
+        expires 7d;
+        access_log off;
+    }
+
+    location ~ /\.(ht|env|git|svn) {
+        deny all;
+    }
+}

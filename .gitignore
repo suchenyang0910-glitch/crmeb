@@ -1,0 +1,10 @@
+/vendor/
+/runtime/
+/backup/
+/public/uploads/
+/.env
+/.idea/
+/.vscode/
+/.DS_Store
+Thumbs.db
+*.log
