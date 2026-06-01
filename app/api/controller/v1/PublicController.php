@@ -81,7 +81,7 @@ class PublicController
         if (strstr($logoUrl, 'http') === false && $logoUrl) {
             $logoUrl = sys_config('site_url') . $logoUrl;
         }
-        $logoUrl = str_replace('\\', '/', $logoUrl);
+        $logoUrl = normalize_loopback_url(str_replace('\\', '/', $logoUrl));
         $fastNumber = (int)sys_config('fast_number', 0);//TODO 快速选择分类个数
 
         /** @var StoreCategoryServices $categoryService */
@@ -117,7 +117,7 @@ class PublicController
         if (strstr($data['img'], 'http') === false && $data['img'] != '') {
             $data['img'] = sys_config('site_url') . $data['img'];
         }
-        $data['img'] = str_replace('\\', '/', $data['img']);
+        $data['img'] = normalize_loopback_url(str_replace('\\', '/', $data['img']));
         $data['title'] = sys_config('wechat_share_title');
         $data['synopsis'] = sys_config('wechat_share_synopsis');
         return app('json')->success($data);
@@ -616,9 +616,9 @@ class PublicController
     public function copyright()
     {
         $copyrightContext = sys_config('nncnL_crmeb_copyright', '');
-        $copyrightImage = sys_config('nncnL_crmeb_copyright_image', '');
+        $copyrightImage = normalize_loopback_url(sys_config('nncnL_crmeb_copyright_image', ''));
         $siteName = sys_config('site_name', '');
-        $siteLogo = sys_config('wap_login_logo', '');
+        $siteLogo = normalize_loopback_url(sys_config('wap_login_logo', ''));
         return app('json')->success(compact('copyrightContext', 'copyrightImage', 'siteName', 'siteLogo'));
     }
 
@@ -727,7 +727,7 @@ class PublicController
     {
         $data['site_name'] = sys_config('site_name'); //网站名称
         $data['site_url'] = sys_config('site_url'); //网站地址
-        $data['wap_login_logo'] = sys_config('wap_login_logo'); //移动端登录logo
+        $data['wap_login_logo'] = normalize_loopback_url(sys_config('wap_login_logo')); //移动端登录logo
         $data['record_No'] = sys_config('record_No'); //备案号
         $data['icp_url'] = sys_config('icp_url'); //备案号链接
         $data['network_security'] = sys_config('network_security'); //网安备案
@@ -789,7 +789,7 @@ class PublicController
         ], true);
         $data['site_name'] = sys_config('site_name'); //网站名称
         $data['site_url'] = sys_config('site_url'); //网站地址
-        $data['site_logo'] = sys_config('wap_login_logo'); //移动端登录logo
+        $data['site_logo'] = normalize_loopback_url(sys_config('wap_login_logo')); //移动端登录logo
         $order = app()->make(StoreOrderServices::class)->getOne(['order_id' => $out_trade_no]);
         $data['goods_name'] = app()->make(StoreOrderCartInfoServices::class)->getCarIdByProductTitle((int)$order['id']);
         $data['pay_price'] = $order['pay_price'];

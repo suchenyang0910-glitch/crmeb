@@ -40,7 +40,7 @@ class StoreDescriptionServices extends BaseServices
     public function getDescription(array $where)
     {
         $info = $this->dao->getDescription($where);
-        if ($info) return htmlspecialchars_decode($info->description);
+        if ($info) return (string)$info->description;
         return '';
     }
 

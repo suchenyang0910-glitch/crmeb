@@ -31,7 +31,7 @@ class StoreDescription extends BaseModel
 
     public function getDescriptionAttr($value)
     {
-        return htmlspecialchars_decode($value);
+        return normalize_loopback_url(htmlspecialchars_decode($value));
     }
 
     /**
