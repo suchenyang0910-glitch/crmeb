@@ -131,6 +131,18 @@ Route::group('product', function () {
         Route::post('copy', 'v1.product.CopyTaobao/copyProduct')->option(['real_name' => '复制其他平台商品']);
         //保存商品数据
         Route::post('crawl/save', 'v1.product.CopyTaobao/save_product')->option(['real_name' => '保存采集商品数据']);
+        //类目采集预设
+        Route::get('crawl/category/preset', 'v1.product.ProductCrawler/preset')->option(['real_name' => '类目采集预设']);
+        //类目采集商品池列表
+        Route::get('crawl/category/list', 'v1.product.ProductCrawler/index')->option(['real_name' => '类目采集商品池列表']);
+        //执行类目采集
+        Route::post('crawl/category/run', 'v1.product.ProductCrawler/run')->option(['real_name' => '执行类目采集']);
+        //审核通过并生成正式商品
+        Route::post('crawl/category/approve/:id', 'v1.product.ProductCrawler/approve')->option(['real_name' => '审核通过类目采集商品']);
+        //审核拒绝
+        Route::post('crawl/category/reject/:id', 'v1.product.ProductCrawler/reject')->option(['real_name' => '拒绝类目采集商品']);
+        //删除类目采集商品池数据
+        Route::delete('crawl/category/delete/:id', 'v1.product.ProductCrawler/delete')->option(['real_name' => '删除类目采集商品池数据']);
     })->option(['parent' => 'product', 'cate_name' => '商品采集']);
 
     /** 商品标签 */

@@ -724,7 +724,7 @@ class StoreProductServices extends BaseServices
         if (isset($data['description_images'])) {
             $descriptionImages = $data['description_images'];
         }
-        $this->transaction(function () use ($id, $is_copy, $data, $descriptionImages, $description, $cate_id, $storeDescriptionServices, $storeProductCateServices, $storeProductAttrServices, $storeProductCouponServices, $storeCategoryServices, $detail, $attr, $coupon_ids, $type, $slider_image) {
+        return $this->transaction(function () use ($id, $is_copy, $data, $descriptionImages, $description, $cate_id, $storeDescriptionServices, $storeProductCateServices, $storeProductAttrServices, $storeProductCouponServices, $storeCategoryServices, $detail, $attr, $coupon_ids, $type, $slider_image) {
             if ($data['spec_type'] == 0) {
                 $attr = [
                     [
@@ -771,6 +771,7 @@ class StoreProductServices extends BaseServices
                     $storeProductCouponServices->delete(['product_id' => $id]);
                 }
                 if (!$attrRes) throw new AdminException('添加失败');
+                return $id;
             } else {
                 $data['add_time'] = time();
                 $data['code_path'] = '';
@@ -832,6 +833,7 @@ class StoreProductServices extends BaseServices
                         $storeDescriptionServices->saveDescription((int)$res->id, $description);
                     }
                 }
+                return (int)$res->id;
             }
         });
     }
