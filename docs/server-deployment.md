@@ -33,7 +33,7 @@
 上线前需要准备以下内容：
 
 - 代码目录：`official_v6`
-- 数据库导出文件：建议从当前本地 `crmeb_v6` 导出
+- 数据库导出文件：`database/crmeb_v6_full.sql`
 - 历史上传文件：`public/uploads`
 - 生产环境配置：`.env`
 - 安装标记：`.constant`、`public/install.lock`
@@ -100,7 +100,7 @@ sudo systemctl start nginx redis-server php7.4-fpm supervisor
 在本地执行：
 
 ```bash
-mysqldump -uroot -proot --default-character-set=utf8mb4 crmeb_v6 > crmeb_v6.sql
+mysqldump -uroot -proot --default-character-set=utf8mb4 crmeb_v6 > official_v6/database/crmeb_v6_full.sql
 ```
 
 ### 5.2 打包上传文件
@@ -110,7 +110,7 @@ mysqldump -uroot -proot --default-character-set=utf8mb4 crmeb_v6 > crmeb_v6.sql
 ```text
 official_v6/
 official_v6/public/uploads/
-crmeb_v6.sql
+official_v6/database/crmeb_v6_full.sql
 ```
 
 如果你准备直接传整站，可排除 `runtime` 再压缩：
@@ -132,7 +132,7 @@ zip -r crmeb-official_v6-deploy.zip official_v6 -x "official_v6/runtime/*"
 
 ```bash
 scp -r official_v6 root@YOUR_SERVER_IP:/data/www/
-scp crmeb_v6.sql root@YOUR_SERVER_IP:/data/www/
+scp official_v6/database/crmeb_v6_full.sql root@YOUR_SERVER_IP:/data/www/
 ```
 
 ## 7. 服务器部署步骤
@@ -164,7 +164,7 @@ cp deploy/env/.env.production.example .env
 ### 7.3 导入数据库
 
 ```bash
-mysql -uYOUR_DB_USER -pYOUR_DB_PASSWORD YOUR_DB_NAME < /data/www/crmeb_v6.sql
+mysql -uYOUR_DB_USER -pYOUR_DB_PASSWORD YOUR_DB_NAME < /data/www/crmeb_v6_full.sql
 ```
 
 ### 7.4 确认安装标记
